@@ -8,5 +8,6 @@ namespace CertManager
 {
     public class Class1
     {
+        int test = 1;
     }
 }
