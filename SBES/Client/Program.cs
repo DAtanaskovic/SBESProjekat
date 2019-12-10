@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Data;
 
 namespace Client
 {
@@ -11,6 +12,7 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            
             NetTcpBinding binding = new NetTcpBinding();
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Receiver"));
 
@@ -20,6 +22,8 @@ namespace Client
                 Console.WriteLine("TestCommunication() finished. Press <enter> to continue ...");
                 Console.ReadLine();
             }
+            
+
         }
     }
 }

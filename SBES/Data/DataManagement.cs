@@ -84,6 +84,8 @@ namespace Data
                 {
                     listOfObjects[i] = em;
                     isUpdated = true;
+                    string json = JsonConvert.SerializeObject(listOfObjects, Formatting.Indented);
+                    File.WriteAllText(path, json);
                     Console.WriteLine("Updating is done successfully.");
                 }
                 else
