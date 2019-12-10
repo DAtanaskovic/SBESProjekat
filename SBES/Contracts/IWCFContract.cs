@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -12,5 +13,15 @@ namespace Contracts
     {
         [OperationContract]
         void TestCommunication();
+        [OperationContract]
+        bool CreateDataBase(string dbname);
+        [OperationContract]
+        bool Add(EnergyConsumptionModel item);
+        [OperationContract]
+        List<EnergyConsumptionModel> Read();
+        
+
+
+
     }
 }

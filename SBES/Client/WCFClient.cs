@@ -8,6 +8,7 @@ using System.ServiceModel;
 using CertManager;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
+using Data;
 
 namespace Client
 {
@@ -43,6 +44,48 @@ namespace Client
             }
         }
 
+        public bool CreateDataBase(string a)
+        {
+            try
+            {
+               
+                return factory.CreateDataBase(a);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[CreateDataBase] ERROR = {0}", e.Message);
+                return false;
+            }
+        }
+
+        public bool Add(EnergyConsumptionModel item)
+        {
+            try
+            {
+                return factory.Add(item);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[Add] ERROR = {0}", e.Message);
+                return false;
+            }
+        }
+        public List<EnergyConsumptionModel> Read()
+        {
+
+            try
+            {
+                return factory.Read();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[Read] ERROR = {0}", e.Message);
+                return null;
+            }
+
+
+        }
+
         public void Dispose()
         {
             if (factory != null)
@@ -52,5 +95,7 @@ namespace Client
 
             this.Close();
         }
+
+        
     }
 }

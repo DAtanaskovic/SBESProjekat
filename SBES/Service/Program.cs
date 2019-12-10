@@ -29,6 +29,7 @@ namespace Service
             host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
             host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
 
+            //string srvCertCN = "wcfservice";
             string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
             host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;

@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Data;
 
 namespace Client
 {
@@ -24,9 +25,62 @@ namespace Client
 
             using (WCFClient proxy = new WCFClient(binding, address))
             {
-                proxy.TestCommunication();
-                Console.WriteLine("TestCommunication() finished. Press <enter> to continue ...");
-                Console.ReadLine();
+                while(true)
+                {
+
+                    Console.WriteLine("1.Create DataBase:");
+                    Console.WriteLine("2.Add Energy Conusmption:");
+                    Console.WriteLine("3.Read all items");
+                    string number =Console.ReadLine();
+                    if(number=="1")
+                    {
+                        Console.WriteLine("Enter path:");
+                        string path = Console.ReadLine();
+                        proxy.CreateDataBase(path);
+                    }
+                    else if (number == "2")
+                    {
+                   
+                        string id = Guid.NewGuid().ToString();
+
+                        Console.WriteLine("Enter region:");
+                        string region = Console.ReadLine();
+
+                        Console.WriteLine("Enter city:");
+                        string city= Console.ReadLine();
+
+                        Console.WriteLine("Enter year:");
+                        int year = Int32.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Enter usage:");
+                        double usage = double.Parse(Console.ReadLine());
+
+                        EnergyConsumptionModel e1 = new EnergyConsumptionModel()
+                        {
+                            identificator = id,
+                            region = region,
+                            city = city,
+                            year = year,
+                            usageOfElectricEnergyPerYear = usage
+
+                        };
+
+                        proxy.Add(e1);
+
+                    }
+                    else if(number=="3")
+                    {
+                      List<EnergyConsumptionModel> list=proxy.Read();
+                        for(int i=0; i<list.Count;i++)
+                        {
+
+                            Console.WriteLine(list[i].city);
+
+                        }
+                    }
+
+                }
+
             }
         }
     }

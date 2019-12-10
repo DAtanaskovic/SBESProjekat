@@ -10,9 +10,9 @@ namespace Data
     {
 
         bool Create(EnergyConsumptionModel em);
-        bool Delete(int identificator);
+        bool Delete(string identificator);
         bool Update(EnergyConsumptionModel em);
-        EnergyConsumptionModel Get(int identificator);
+        EnergyConsumptionModel Get(string identificator);
         List<EnergyConsumptionModel> GetAll();
 
 

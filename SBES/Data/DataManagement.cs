@@ -10,10 +10,11 @@ namespace Data
 {
     public class DataManagement:IDataManagement
     {
-        public string path { get; set; } = @"DataBase.txt";
+        public string path { get; set; } = @"fajl.txt";
         List<EnergyConsumptionModel> listOfObjects = new List<EnergyConsumptionModel>();
        public bool Create(EnergyConsumptionModel em)
         {
+
             bool isCreated = false;
             if (!listOfObjects.Contains(em))
             {
@@ -34,7 +35,7 @@ namespace Data
 
         }
 
-        public bool Delete(int identificator)
+        public bool Delete(string identificator)
         {
             bool isDeleted = false;
             for (int i = 0; i < listOfObjects.Count; i++)
@@ -56,7 +57,7 @@ namespace Data
             return isDeleted;
         }
 
-        public EnergyConsumptionModel Get(int identificator)
+        public EnergyConsumptionModel Get(string identificator)
         {
             EnergyConsumptionModel em = new EnergyConsumptionModel();
             for (int i = 0; i < listOfObjects.Count; i++)
@@ -72,7 +73,9 @@ namespace Data
 
         public List<EnergyConsumptionModel> GetAll()
         {
-            return listOfObjects;
+            string json = File.ReadAllText(path);
+            List<EnergyConsumptionModel> list = JsonConvert.DeserializeObject<List<EnergyConsumptionModel>>(json);
+            return list;
         }
 
         public bool Update(EnergyConsumptionModel em)

@@ -8,7 +8,7 @@ namespace Data
 {
   public class EnergyConsumptionModel
     { 
-        public int identificator { get; set; }
+        public string identificator { get; set; }
         public string region { get; set; }
         public string city { get; set; }
         public int year { get; set; }
