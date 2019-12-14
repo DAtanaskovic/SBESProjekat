@@ -11,38 +11,76 @@ namespace Service
 {
     public class WCFService : IWCFContract
     {
-        private IDataManagement dataBase = null;
+        private IDataManagement dataBase = new DataManagement();
 
-        public bool Add(EnergyConsumptionModel item)
+        public bool Add(string dbPath, EnergyConsumptionModel item)
         {
-            if (dataBase == null)
+            if (!File.Exists(dbPath))
             {
-                return false;
+                Console.WriteLine("Database does not exists!");
             }
 
-            bool result = dataBase.Create(item);
+            bool result = dataBase.Create(dbPath, item);
             return result;
         }
 
         public bool CreateDataBase(string dbname)
         {
-           
-            dataBase = new DataManagement()
+            if (File.Exists(dbname))
             {
-                path = dbname
+                //throw new Exception("Database already exists!");
+                Console.WriteLine("Database already exists!");
+            }
 
-            };
+            File.Create(dbname).Dispose();
                 
             return true;
         }
-        public List<EnergyConsumptionModel> Read()
+
+        public bool DatabaseExists(string path)
         {
-            return dataBase.GetAll();
+            return File.Exists(path);
         }
 
-        public void TestCommunication()
+        public bool Delete(string path, string id)
         {
-            Console.WriteLine("TEST");
+            if (!File.Exists(path))
+            {
+                //throw new Exception("Database already exists!");
+                Console.WriteLine("Database does not exists!");
+            }
+
+            return dataBase.Delete(path, id);
+        }
+
+        public bool Update(string path, EnergyConsumptionModel item)
+        {
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Database does not exists!");
+            }
+
+            return dataBase.Update(path, item);
+        }
+
+        public List<EnergyConsumptionModel> Read(string path)
+        {
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Database does not exists!");
+            }
+
+            return dataBase.GetAll(path);
+        }
+
+        public EnergyConsumptionModel ReadItem(string path, string id)
+        {
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Database does not exists!");
+            }
+
+            return dataBase.Get(path, id);
         }
     }
 }

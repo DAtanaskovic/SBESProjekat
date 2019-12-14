@@ -8,36 +8,47 @@ using System.Threading;
 
 namespace Data
 {
-    public class DataManagement:IDataManagement
+    public class DataManagement : IDataManagement
     {
-        public string path { get; set; } = @"fajl.txt";
-        List<EnergyConsumptionModel> listOfObjects = new List<EnergyConsumptionModel>();
-       public bool Create(EnergyConsumptionModel em)
+       public string path { get; set; } = @"fajl.txt";
+       List<EnergyConsumptionModel> listOfObjects = new List<EnergyConsumptionModel>();
+
+       public bool Create(string path, EnergyConsumptionModel em)
         {
+            bool isCreated = true;
 
-            bool isCreated = false;
-            if (!listOfObjects.Contains(em))
+            if (!File.Exists(path))
             {
-                listOfObjects.Add(em);
-
-                string json = JsonConvert.SerializeObject(listOfObjects, Formatting.Indented);
-                File.WriteAllText(path, json);
-                isCreated = true;
-                Console.WriteLine("Creating is done successfully");
-                return isCreated;
-            }
-            else
-            {
-                Console.WriteLine("There is already the same object in file.");
                 isCreated = false;
-                return isCreated;
             }
 
+            listOfObjects = GetAll(path);
+
+            if (listOfObjects == null)
+            {
+                listOfObjects = new List<EnergyConsumptionModel>();
+            }
+
+            listOfObjects.Add(em);
+
+            string json = JsonConvert.SerializeObject(listOfObjects, Formatting.Indented);
+            File.WriteAllText(path, json);
+            Console.WriteLine("Creating is done successfully");
+
+            return isCreated;
         }
 
-        public bool Delete(string identificator)
+        public bool Delete(string path, string identificator)
         {
             bool isDeleted = false;
+
+            listOfObjects = GetAll(path);
+
+            if (listOfObjects == null)
+            {
+                return false;
+            }
+
             for (int i = 0; i < listOfObjects.Count; i++)
             {
                 if (listOfObjects[i].identificator == identificator)
@@ -51,36 +62,50 @@ namespace Data
                 else
                 {
                     Console.WriteLine("Couldn't delete object with that identificator.");
-                    isDeleted = false;
                 }
             }
+
             return isDeleted;
         }
 
-        public EnergyConsumptionModel Get(string identificator)
+        public EnergyConsumptionModel Get(string path, string identificator)
         {
-            EnergyConsumptionModel em = new EnergyConsumptionModel();
+            listOfObjects = GetAll(path);
+
+            if (listOfObjects == null)
+            {
+                return null;
+            }
+
             for (int i = 0; i < listOfObjects.Count; i++)
             {
                 if (listOfObjects[i].identificator == identificator)
                 {
-                    em = listOfObjects[i];
+                    return listOfObjects[i];
                 }
             }
-            return em;
 
+            return null;
         }
 
-        public List<EnergyConsumptionModel> GetAll()
+        public List<EnergyConsumptionModel> GetAll(string dbPath)
         {
-            string json = File.ReadAllText(path);
+            string json = File.ReadAllText(dbPath);
             List<EnergyConsumptionModel> list = JsonConvert.DeserializeObject<List<EnergyConsumptionModel>>(json);
             return list;
         }
 
-        public bool Update(EnergyConsumptionModel em)
+        public bool Update(string path, EnergyConsumptionModel em)
         {
             bool isUpdated = false;
+
+            listOfObjects = GetAll(path);
+
+            if (listOfObjects == null)
+            {
+                return false;
+            }
+
             for (int i = 0; i < listOfObjects.Count; i++)
             {
                 if (listOfObjects[i].identificator == em.identificator)

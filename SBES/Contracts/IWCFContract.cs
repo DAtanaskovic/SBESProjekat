@@ -12,16 +12,18 @@ namespace Contracts
     public interface IWCFContract
     {
         [OperationContract]
-        void TestCommunication();
-        [OperationContract]
         bool CreateDataBase(string dbname);
         [OperationContract]
-        bool Add(EnergyConsumptionModel item);
+        bool Add(string dbPath, EnergyConsumptionModel item);
         [OperationContract]
-        List<EnergyConsumptionModel> Read();
-        
-
-
-
+        List<EnergyConsumptionModel> Read(string path);
+        [OperationContract]
+        bool DatabaseExists(string path);
+        [OperationContract]
+        bool Delete(string path, string id);
+        [OperationContract]
+        bool Update(string path, EnergyConsumptionModel item);
+        [OperationContract]
+        EnergyConsumptionModel ReadItem(string path, string id);
     }
 }

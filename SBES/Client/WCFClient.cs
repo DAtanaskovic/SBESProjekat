@@ -16,39 +16,24 @@ namespace Client
     {
         IWCFContract factory;
 
-
-
         public WCFClient(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
         {
-            string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            //string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
-            this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
-            this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
-            this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            //this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+            //this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
+            //this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            this.Credentials.ClientCertificate.Certificate = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
+            //this.Credentials.ClientCertificate.Certificate = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
 
             factory = CreateChannel();
-        }
-
-        public void TestCommunication()
-        {
-            try
-            {
-                factory.TestCommunication();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("[TestCommunication] ERROR = {0}", e.Message);
-            }
         }
 
         public bool CreateDataBase(string a)
         {
             try
             {
-               
                 return factory.CreateDataBase(a);
             }
             catch (Exception e)
@@ -58,11 +43,11 @@ namespace Client
             }
         }
 
-        public bool Add(EnergyConsumptionModel item)
+        public bool Add(string path, EnergyConsumptionModel item)
         {
             try
             {
-                return factory.Add(item);
+                return factory.Add(path, item);
             }
             catch (Exception e)
             {
@@ -70,20 +55,69 @@ namespace Client
                 return false;
             }
         }
-        public List<EnergyConsumptionModel> Read()
+        public List<EnergyConsumptionModel> Read(string path)
         {
-
             try
             {
-                return factory.Read();
+                return factory.Read(path);
             }
             catch (Exception e)
             {
                 Console.WriteLine("[Read] ERROR = {0}", e.Message);
                 return null;
             }
+        }
 
+        public bool DatabaseExists(string path)
+        {
+            try
+            {
+                return factory.DatabaseExists(path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[DatabaseExists] ERROR = {0}", e.Message);
+                return false;
+            }
+        }
 
+        public bool Delete(string path, string id)
+        {
+            try
+            {
+                return factory.Delete(path, id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[Delete] ERROR = {0}", e.Message);
+                return false;
+            }
+        }
+
+        public bool Update(string path, EnergyConsumptionModel item)
+        {
+            try
+            {
+                return factory.Update(path, item);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[Update] ERROR = {0}", e.Message);
+                return false;
+            }
+        }
+
+        public EnergyConsumptionModel ReadItem(string path, string id)
+        {
+            try
+            {
+                return factory.ReadItem(path, id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[Update] ERROR = {0}", e.Message);
+                return null;
+            }
         }
 
         public void Dispose()
@@ -95,7 +129,5 @@ namespace Client
 
             this.Close();
         }
-
-        
     }
 }

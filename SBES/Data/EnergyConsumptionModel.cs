@@ -13,15 +13,7 @@ namespace Data
         public string city { get; set; }
         public int year { get; set; }
         public double usageOfElectricEnergyPerYear { get; set; }
-      
 
-
-        public EnergyConsumptionModel()
-        {
-           
-
-        }
-
-       
+        public EnergyConsumptionModel() { }
     }
 }

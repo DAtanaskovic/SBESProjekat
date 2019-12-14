@@ -9,11 +9,11 @@ namespace Data
    public interface IDataManagement
     {
 
-        bool Create(EnergyConsumptionModel em);
-        bool Delete(string identificator);
-        bool Update(EnergyConsumptionModel em);
-        EnergyConsumptionModel Get(string identificator);
-        List<EnergyConsumptionModel> GetAll();
+        bool Create(string path, EnergyConsumptionModel em);
+        bool Delete(string path, string identificator);
+        bool Update(string path, EnergyConsumptionModel em);
+        EnergyConsumptionModel Get(string path, string identificator);
+        List<EnergyConsumptionModel> GetAll(string path);
 
 
     }
