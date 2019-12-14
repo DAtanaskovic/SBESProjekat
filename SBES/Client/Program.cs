@@ -120,6 +120,7 @@ namespace Client
                         if (!proxy.DatabaseExists(path))
                         {
                             Console.WriteLine("Database does not exists!");
+                            Console.WriteLine();
                             continue;
                         }
 
