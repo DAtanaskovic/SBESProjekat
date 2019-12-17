@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using Data;
 using System.IO;
 using System.Security.Permissions;
+using System.ServiceModel;
 
 namespace Service
 {
     public class WCFService : IWCFContract
     {
         private IDataManagement dataBase = new DataManagement();
+        private IReplicate proxy;
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Write")]
         public bool Add(string dbPath, EnergyConsumptionModel item)
@@ -23,6 +25,10 @@ namespace Service
             }
 
             bool result = dataBase.Create(dbPath, item);
+
+            proxy = Connect();
+            proxy.Add(dbPath, item);
+
             return result;
         }
 
@@ -35,8 +41,23 @@ namespace Service
             }
 
             File.Create(dbname).Dispose();
+
+            proxy = Connect();
+
+            proxy.CreateDatabase(dbname);
                 
             return true;
+        }
+
+        private IReplicate Connect()
+        {
+            string address = "net.tcp://localhost:10000/Endpoint2";
+            NetTcpBinding binding = new NetTcpBinding();
+
+            ChannelFactory<IReplicate> channel = new ChannelFactory<IReplicate>(binding, address);
+
+            IReplicate proxy = channel.CreateChannel();
+            return proxy;
         }
 
         public bool DatabaseExists(string path)
