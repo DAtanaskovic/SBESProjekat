@@ -152,6 +152,11 @@ namespace Client
 
                         var energyModel = proxy.ReadItem(path, idMap[id]);
 
+                        if (energyModel == null)
+                        {
+                            continue;
+                        }
+
                         Console.Write("Enter region: ");
                         string region = Console.ReadLine();
 
@@ -174,6 +179,31 @@ namespace Client
                             Console.WriteLine($"Item with id: {id} updated succesfully");
                         }
                     }
+                    else if (option == "6")
+                    {
+                        Console.WriteLine("Enter path:");
+                        string path = Console.ReadLine();
+
+                        if (!proxy.DatabaseExists(path))
+                        {
+                            Console.WriteLine("Database does not exists!");
+                            continue;
+                        }
+
+                        Console.WriteLine("Enter city:");
+                        string city = Console.ReadLine();
+
+                        double result = proxy.AverageConsumptionPerCity(path, city);
+
+                        if (result == -1)
+                        {
+                            Console.WriteLine("There is no energy consumption records for {0}", city);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Average: {0}", result);
+                        }
+                    }
                 }
             }
         }
@@ -186,6 +216,7 @@ namespace Client
             Console.WriteLine("3. Read Database");
             Console.WriteLine("4. Delete Item");
             Console.WriteLine("5. Update Item");
+            Console.WriteLine("6. Average Energy Consumption of City");
             Console.WriteLine();
 
             return Console.ReadLine();

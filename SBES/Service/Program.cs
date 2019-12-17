@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using CertManager;
 using System.Security.Principal;
+using System.ServiceModel.Description;
+using SecurityManager;
+using System.IdentityModel.Policy;
 
 namespace Service
 {
@@ -32,8 +35,18 @@ namespace Service
             //string srvCertCN = "wcfservice";
             //string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
-           // host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
-           // host.Credentials.ServiceCertificate.Certificate = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            // host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            // host.Credentials.ServiceCertificate.Certificate = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+
+            host.Authorization.ServiceAuthorizationManager = new CustomServiceAuthorizationManager();
+
+            host.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
+            List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
+            policies.Add(new CustomAuthorizationPolicy());
+            host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
 
             try
             {

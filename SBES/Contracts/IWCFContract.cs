@@ -25,5 +25,7 @@ namespace Contracts
         bool Update(string path, EnergyConsumptionModel item);
         [OperationContract]
         EnergyConsumptionModel ReadItem(string path, string id);
+        [OperationContract]
+        double AverageConsumptionPerCity(string path, string city);
     }
 }

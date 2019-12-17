@@ -9,6 +9,7 @@ using CertManager;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
 using Data;
+using System.ServiceModel.Security;
 
 namespace Client
 {
@@ -36,7 +37,7 @@ namespace Client
             {
                 return factory.CreateDataBase(a);
             }
-            catch (Exception e)
+            catch (SecurityAccessDeniedException e)
             {
                 Console.WriteLine("[CreateDataBase] ERROR = {0}", e.Message);
                 return false;
@@ -49,7 +50,7 @@ namespace Client
             {
                 return factory.Add(path, item);
             }
-            catch (Exception e)
+            catch (SecurityAccessDeniedException e)
             {
                 Console.WriteLine("[Add] ERROR = {0}", e.Message);
                 return false;
@@ -61,7 +62,7 @@ namespace Client
             {
                 return factory.Read(path);
             }
-            catch (Exception e)
+            catch (SecurityAccessDeniedException e)
             {
                 Console.WriteLine("[Read] ERROR = {0}", e.Message);
                 return null;
@@ -87,7 +88,7 @@ namespace Client
             {
                 return factory.Delete(path, id);
             }
-            catch (Exception e)
+            catch (SecurityAccessDeniedException e)
             {
                 Console.WriteLine("[Delete] ERROR = {0}", e.Message);
                 return false;
@@ -100,7 +101,7 @@ namespace Client
             {
                 return factory.Update(path, item);
             }
-            catch (Exception e)
+            catch (SecurityAccessDeniedException e)
             {
                 Console.WriteLine("[Update] ERROR = {0}", e.Message);
                 return false;
@@ -113,7 +114,7 @@ namespace Client
             {
                 return factory.ReadItem(path, id);
             }
-            catch (Exception e)
+            catch (SecurityAccessDeniedException e)
             {
                 Console.WriteLine("[Update] ERROR = {0}", e.Message);
                 return null;
@@ -128,6 +129,19 @@ namespace Client
             }
 
             this.Close();
+        }
+
+        public double AverageConsumptionPerCity(string path, string city)
+        {
+            try
+            {
+                return factory.AverageConsumptionPerCity(path, city);
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("[Update] ERROR = {0}", e.Message);
+                return -1;
+            }
         }
     }
 }

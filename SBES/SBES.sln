@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{69CF6715-8EEE-400A-AE74-40A6634948EB}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertManager", "CertManager\CertManager.csproj", "{2B7FF781-E79C-408C-BCDC-D43DB7717B2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{5BA1D3CB-41E8-491B-B156-DB4E4DA349F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityManager", "SecurityManager\SecurityManager.csproj", "{22B42584-CECA-43F3-98DB-7A80E4BF5DF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +47,15 @@ Global
 		{5BA1D3CB-41E8-491B-B156-DB4E4DA349F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BA1D3CB-41E8-491B-B156-DB4E4DA349F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BA1D3CB-41E8-491B-B156-DB4E4DA349F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22B42584-CECA-43F3-98DB-7A80E4BF5DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22B42584-CECA-43F3-98DB-7A80E4BF5DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22B42584-CECA-43F3-98DB-7A80E4BF5DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22B42584-CECA-43F3-98DB-7A80E4BF5DF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76C270C4-4605-4BAE-AE66-F5048E73D0FC}
 	EndGlobalSection
 EndGlobal
