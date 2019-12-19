@@ -52,9 +52,17 @@ namespace Service
         private IReplicate Connect()
         {
             string address = "net.tcp://localhost:10000/Endpoint2";
+
             NetTcpBinding binding = new NetTcpBinding();
 
+            binding.Security.Mode = SecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+
+
             ChannelFactory<IReplicate> channel = new ChannelFactory<IReplicate>(binding, address);
+
+            channel.Credentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
 
             IReplicate proxy = channel.CreateChannel();
             return proxy;

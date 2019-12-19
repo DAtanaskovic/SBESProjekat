@@ -48,6 +48,8 @@ namespace Service
             policies.Add(new CustomAuthorizationPolicy());
             host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
 
+            Console.WriteLine("Korisnik {0} je pokrenuo servera", WindowsIdentity.GetCurrent().Name);
+
             try
             {
                 host.Open();

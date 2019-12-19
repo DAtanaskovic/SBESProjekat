@@ -11,7 +11,7 @@ namespace Replicator
 {
     public class Replicate : IReplicate
     {
-        private IDataManagement database;
+        private IDataManagement database = new DataManagement();
 
         public bool Add(string path, EnergyConsumptionModel item)
         {

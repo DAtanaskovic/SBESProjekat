@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data;
 using System.IO;
+using System.Security.Principal;
 
 namespace Client
 {
@@ -24,6 +25,8 @@ namespace Client
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Receiver"));
 
             Dictionary<int, string> idMap = new Dictionary<int, string>();
+
+            Console.WriteLine("Korisnik {0} je pokrenuo klijenta", WindowsIdentity.GetCurrent().Name);
 
             using (WCFClient proxy = new WCFClient(binding, address))
             {
