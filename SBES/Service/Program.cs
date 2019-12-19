@@ -48,6 +48,16 @@ namespace Service
             policies.Add(new CustomAuthorizationPolicy());
             host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
 
+            // log event podesavanja
+            ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
+            newAudit.AuditLogLocation = AuditLogLocation.Application;
+            newAudit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;
+            newAudit.SuppressAuditFailure = true;
+
+            host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            host.Description.Behaviors.Add(newAudit);
+
+
             Console.WriteLine("Korisnik {0} je pokrenuo servera", WindowsIdentity.GetCurrent().Name);
 
             try

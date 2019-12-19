@@ -8,6 +8,10 @@ using Data;
 using System.IO;
 using System.Security.Permissions;
 using System.ServiceModel;
+using SecurityManager.Log;
+using System.Security.Principal;
+using SecurityManager;
+using System.Threading;
 
 namespace Service
 {
@@ -26,6 +30,16 @@ namespace Service
 
             bool result = dataBase.Create(dbPath, item);
 
+            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+            try
+            {
+                Audit.AuthorizationSuccess(principal.Identity.Name, OperationContext.Current.IncomingMessageHeaders.Action);
+            }
+            catch (ArgumentException ae)
+            {
+                Console.WriteLine(ae.Message);
+            }
+
             proxy = Connect();
             proxy.Add(dbPath, item);
 
@@ -41,6 +55,16 @@ namespace Service
             }
 
             File.Create(dbname).Dispose();
+
+            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+            try
+            {
+                Audit.AuthorizationSuccess(principal.Identity.Name, OperationContext.Current.IncomingMessageHeaders.Action);
+            }
+            catch (ArgumentException ae)
+            {
+                Console.WriteLine(ae.Message);
+            }
 
             proxy = Connect();
 
