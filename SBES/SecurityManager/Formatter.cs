@@ -33,5 +33,21 @@ namespace SecurityManager
                 return winLogonName;
             }
         }
+
+        public static string ParseSubjectName(string subjectName)
+        {
+            var subjName = subjectName.Split(' ')[0].Substring(4);
+            return subjName;
+        }
+
+        public static string ParseClientSubjectName(string fullName)
+        {
+            string subjectName = fullName.Split(',')[0];
+
+            // Mora se izbirsati CN=
+            subjectName = subjectName.Remove(0, 3);
+
+            return subjectName;
+        }
     }
 }

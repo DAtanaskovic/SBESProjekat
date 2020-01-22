@@ -1,6 +1,8 @@
-﻿using System;
+﻿using CertManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,32 +11,40 @@ namespace SecurityManager
 {
     public class CustomPrincipal : IPrincipal
     {
-        WindowsIdentity identity = null;
-        public CustomPrincipal(WindowsIdentity windowsIdentity)
+        private GenericIdentity identity = null;
+        private List<string> roles = new List<string>();
+        private string group = string.Empty;
+
+        public CustomPrincipal(GenericIdentity genericIdentity)
         {
-            identity = windowsIdentity;
+            this.identity = genericIdentity;
+            string name = Formatter.ParseClientSubjectName(identity.Name);
+
+            X509Certificate2 clientCert = Manager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, name);
+
+            if (clientCert != null)
+            {
+                string subjectName = clientCert.SubjectName.Name;
+                string[] parseStrings = subjectName.Split(',');
+                group = parseStrings[1].Remove(0, 4);
+            }
         }
 
         public IIdentity Identity
         {
-            get { return identity; }
+            get { return this.identity; }
         }
 
         public bool IsInRole(string permission)
         {
-            foreach (IdentityReference group in this.identity.Groups)
+            string[] permissions;
+
+            if (RolesConfig.GetPermissions(group, out permissions))
             {
-                SecurityIdentifier sid = (SecurityIdentifier)group.Translate(typeof(SecurityIdentifier));
-                var name = sid.Translate(typeof(NTAccount));
-                string groupName = Formatter.ParseName(name.ToString());
-                string[] permissions;
-                if (RolesConfig.GetPermissions(groupName, out permissions))
+                foreach (string permision in permissions)
                 {
-                    foreach (string permision in permissions)
-                    {
-                        if (permision.Equals(permission))
-                            return true;
-                    }
+                    if (permision.Equals(permission))
+                        return true;
                 }
             }
             return false;

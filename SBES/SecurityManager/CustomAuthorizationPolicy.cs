@@ -7,22 +7,27 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SecurityManager
 {
     public class CustomAuthorizationPolicy : IAuthorizationPolicy
     {
+        private string id;
+        private object locker = new object();
+
         public CustomAuthorizationPolicy()
         {
-            Id = Guid.NewGuid().ToString();
+            this.id = Guid.NewGuid().ToString();
+        }
+
+        public string Id
+        {
+            get { return this.id; }
         }
 
         public ClaimSet Issuer
         {
             get { return ClaimSet.System; }
-        }
-        public string Id
-        {
-            get;
         }
 
         public bool Evaluate(EvaluationContext evaluationContext, ref object state)
@@ -40,9 +45,23 @@ namespace SecurityManager
                 return false;
             }
 
-            evaluationContext.Properties["Principal"] =
-                new CustomPrincipal((WindowsIdentity)identities[0]);
+            evaluationContext.Properties["Principal"] = GetPrincipal(identities[0]);
             return true;
+        }
+
+        protected virtual IPrincipal GetPrincipal(IIdentity identity)
+        {
+            lock (locker)
+            {
+                IPrincipal principal = null;
+                GenericIdentity windowsIdentity = identity as GenericIdentity;
+
+                if (windowsIdentity != null)
+                {
+                    principal = new CustomPrincipal(windowsIdentity);
+                }
+                return principal;
+            }
         }
     }
 }

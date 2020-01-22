@@ -31,6 +31,20 @@ namespace CertManager
                 {
                     return c;
                 }
+                else
+                {
+                    string clientSubjectName = Formatter.ParseClientSubjectName(subjectName);
+                    string currentCertSubjectName = Formatter.ParseClientSubjectName(c.SubjectName.Name);
+
+                    if (currentCertSubjectName == string.Format("CN={0}", clientSubjectName))
+                    {
+                        return c;
+                    }
+                    else if (currentCertSubjectName == clientSubjectName)
+                    {
+                        return c;
+                    }
+                }
             }
 
             return null;

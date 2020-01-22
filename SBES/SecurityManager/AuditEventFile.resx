@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddItemFailed" xml:space="preserve">
+    <value>User {0} failed to add item to database</value>
+  </data>
+  <data name="AddItemSuccess" xml:space="preserve">
+    <value>User {0} successfully added item to database</value>
+  </data>
+  <data name="DbCreationFailed" xml:space="preserve">
+    <value>User {0} failed to create database</value>
+  </data>
+  <data name="DbCreationSuccess" xml:space="preserve">
+    <value>User {0} successfully created database</value>
+  </data>
+  <data name="DbReadFailed" xml:space="preserve">
+    <value>User {0} failed to read database</value>
+  </data>
+  <data name="DbReadSuccess" xml:space="preserve">
+    <value>User {0} successfully read datbase</value>
+  </data>
   <data name="UserAuthenticationSuccess" xml:space="preserve">
     <value>User {0} successfully authenticated.</value>
   </data>

@@ -1,0 +1,35 @@
+makecert -sv admin1Cert.pvk -iv SbesCA.pvk -n "CN=admin1,OU=Admins,O=SbesCA" -pe -ic SbesCA.cer admin1Cert.cer -sr localmachine -ss My -sky exchange
+
+pvk2pfx.exe /pvk admin1Cert.pvk /pi 123 /spc admin1Cert.cer /pfx admin1Cert.pfx
+
+SubjectName = CN=admin1, OU=Admins, O=SbesCA
+
+
+
+Unhandled Exception: System.ServiceModel.Security.MessageSecurityException: 
+Identity check failed for outgoing message. 
+The expected DNS identity of the remote endpoint was 'localhost' 
+but the remote endpoint provided DNS claim 'wcfservice'. If this is a legitimate remote endpoint, 
+you can fix the problem by explicitly specifying DNS identity 'wcfservice' as the 
+Identity property of EndpointAddress when creating channel proxy.
+
+Unhandled Exception: System.ServiceModel.CommunicationException: The socket connection was aborted. 
+This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, 
+or an underlying network resource issue. Local socket timeout was '00:00:59.9830082'. ---> System.IO.IOException: 
+The write operation failed, see inner exception. ---> System.ServiceModel.CommunicationException: The socket connection was aborted. 
+This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, or an underlying network resource issue.
+ Local socket timeout was '00:00:59.9830082'. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.Send(Byte[] buffer, Int32 offset, Int32 size, Soc
+
+
+primer CUDA programa
+
+__global__ void helloWorld_GPU(void) {
+  printf("Hello world");
+}
+
+int main() {
+
+
+  return 0;
+}

@@ -34,5 +34,10 @@ namespace CertManager
                 return winLogonName;
             }
         }
+
+        public static string ParseClientSubjectName(string fullName)
+        {
+           return fullName.Split(',')[0];
+        }
     }
 }

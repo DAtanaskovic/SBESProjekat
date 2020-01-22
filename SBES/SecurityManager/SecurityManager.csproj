@@ -73,7 +73,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Log\" />
+    <ProjectReference Include="..\CertManager\CertManager.csproj">
+      <Project>{2B7FF781-E79C-408C-BCDC-D43DB7717B2E}</Project>
+      <Name>CertManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

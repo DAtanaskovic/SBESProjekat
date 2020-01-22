@@ -34,9 +34,11 @@ namespace Service
             try
             {
                 Audit.AuthorizationSuccess(principal.Identity.Name, OperationContext.Current.IncomingMessageHeaders.Action);
+                Audit.AddSuccess(principal.Identity.Name);
             }
             catch (ArgumentException ae)
             {
+                Audit.AddFailed(principal.Identity.Name);
                 Console.WriteLine(ae.Message);
             }
 
@@ -59,10 +61,12 @@ namespace Service
             CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
             try
             {
+                Audit.CreationSuccess(principal.Identity.Name);
                 Audit.AuthorizationSuccess(principal.Identity.Name, OperationContext.Current.IncomingMessageHeaders.Action);
             }
             catch (ArgumentException ae)
             {
+                Audit.CreationFailed(principal.Identity.Name);
                 Console.WriteLine(ae.Message);
             }
 
@@ -97,7 +101,7 @@ namespace Service
             return File.Exists(path);
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Modify")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Delete")]
         public bool Delete(string path, string id)
         {
             if (!File.Exists(path))

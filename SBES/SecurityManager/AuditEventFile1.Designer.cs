@@ -61,6 +61,60 @@ namespace SecurityManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User {0} failed to add item to database.
+        /// </summary>
+        internal static string AddItemFailed {
+            get {
+                return ResourceManager.GetString("AddItemFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User {0} successfully added item to database.
+        /// </summary>
+        internal static string AddItemSuccess {
+            get {
+                return ResourceManager.GetString("AddItemSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User {0} failed to create database.
+        /// </summary>
+        internal static string DbCreationFailed {
+            get {
+                return ResourceManager.GetString("DbCreationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User {0} successfully created database.
+        /// </summary>
+        internal static string DbCreationSuccess {
+            get {
+                return ResourceManager.GetString("DbCreationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User {0} failed to read database.
+        /// </summary>
+        internal static string DbReadFailed {
+            get {
+                return ResourceManager.GetString("DbReadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User {0} successfully read datbase.
+        /// </summary>
+        internal static string DbReadSuccess {
+            get {
+                return ResourceManager.GetString("DbReadSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User {0} successfully authenticated..
         /// </summary>
         internal static string UserAuthenticationSuccess {

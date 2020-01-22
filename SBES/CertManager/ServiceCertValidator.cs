@@ -19,7 +19,10 @@ namespace CertManager
         public override void Validate(X509Certificate2 certificate)
         {
             /// This will take service's certificate from storage
+
+            //promeni ovde
             X509Certificate2 srvCert = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+            //X509Certificate2 srvCert = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "sbesservice");
 
             if (!certificate.Issuer.Equals(srvCert.Issuer))
             {

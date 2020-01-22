@@ -5,13 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace SecurityManager.Log
 {
     public class Audit : IDisposable
     {
+
         private static EventLog customLog = null;
         const string SourceName = "SecurityManager.Audit";
-        const string LogName = "MySecTest";
+        const string LogName = "Application";
 
         static Audit()
         {
@@ -57,6 +60,64 @@ namespace SecurityManager.Log
             else
             {
                 throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.", (int)AuditEventTypes.UserAuthorizationSuccess));
+            }
+        }
+
+        // Database creation logs
+        public static void CreationSuccess(string userName)
+        {
+            string DbCreationSucess = AuditEvents.DbCreationSuccess;
+            if (customLog != null)
+            {
+                string message = string.Format(DbCreationSucess, userName);
+                customLog.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.", (int)AuditEventTypes.DbCreationSuccess));
+            }
+        }
+
+        public static void CreationFailed(string userName)
+        {
+            string DbCreationFailed = AuditEvents.DbCreationFailed;
+            if (customLog != null)
+            {
+                string message = string.Format(DbCreationFailed, userName);
+                customLog.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.", (int)AuditEventTypes.DbCreationFailed));
+            }
+        }
+
+        // Add item logs
+        public static void AddSuccess(string userName)
+        {
+            string AddItemSuccess = AuditEvents.AddItemSuccess;
+            if (customLog != null)
+            {
+                string message = string.Format(AddItemSuccess, userName);
+                customLog.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.", (int)AuditEventTypes.AddItemSuccess));
+            }
+        }
+
+        public static void AddFailed(string userName)
+        {
+            string AddItemFailed = AuditEvents.AddItemFailed;
+            if (customLog != null)
+            {
+                string message = string.Format(AddItemFailed, userName);
+                customLog.WriteEntry(message);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.", (int)AuditEventTypes.AddItemFailed));
             }
         }
 
