@@ -155,16 +155,91 @@ namespace Service
 
             double sum = 0;
 
-            List<EnergyConsumptionModel> consumptions = dataBase.GetAll(path).Where(c => c.city == city).ToList();
+            List<EnergyConsumptionModel> consumptions = dataBase.GetAll(path);
 
             if (consumptions.Count == 0)
             {
                 return -1;
             }
 
-            consumptions.ForEach(c => sum += c.usageOfElectricEnergyPerYear);
+            int count = 0;
 
-            return sum / consumptions.Count;
+            foreach (var consumption in consumptions)
+            {
+                if (consumption.city == city)
+                {
+                    sum += consumption.usageOfElectricEnergyPerYear;
+                    count++;
+                }
+            }
+
+            return sum / count;
+        }
+
+        [PrincipalPermission(SecurityAction.Demand, Role = "Read")]
+        public double AverageConsumptionPerRegion(string path, string region)
+        {
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Database does not exists!");
+            }
+
+            double sum = 0;
+
+            List<EnergyConsumptionModel> consumptions = dataBase.GetAll(path);
+
+            if (consumptions.Count == 0)
+            {
+                return -1;
+            }
+
+            int count = 0;
+
+            foreach (var consumption in consumptions)
+            {
+                if (consumption.region == region)
+                {
+                    sum += consumption.usageOfElectricEnergyPerYear;
+                    count++;
+                }
+            }
+
+            return sum / count;
+        }
+
+        [PrincipalPermission(SecurityAction.Demand, Role = "Read")]
+        public string MaxConsumptionPerRegion(string path, string region)
+        {
+            string city = null;
+
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Database does not exists!");
+            }
+
+            List<EnergyConsumptionModel> consumptions = dataBase.GetAll(path);
+
+            if (consumptions.Count == 0)
+            {
+                return null;
+            }
+
+            double max = consumptions[0].usageOfElectricEnergyPerYear;
+            city = consumptions[0].city;
+
+            foreach (var consumption in consumptions)
+            {
+                if (consumption.region == region)
+                {
+                    if (consumption.usageOfElectricEnergyPerYear > max)
+                    {
+                        max = consumption.usageOfElectricEnergyPerYear;
+                        city = consumption.city;
+                    }
+                }
+            }
+
+            return city;
         }
     }
 }

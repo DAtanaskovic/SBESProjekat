@@ -18,9 +18,11 @@ namespace CertManager
         /// <param name="certificate"> certificate to be validate </param>
         public override void Validate(X509Certificate2 certificate)
         {
-            if (certificate.Subject.Equals(certificate.Issuer))
+            string issuer = "CN=ProjekatCA";
+
+            if (!certificate.Issuer.Equals(issuer))
             {
-                throw new Exception("Certificate is self-issued.");
+                throw new Exception("Certificate is not from the valid issuer.");
             }
         }
     }

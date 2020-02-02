@@ -23,7 +23,6 @@ namespace Client
 
             X509Certificate2 srvCert = Manager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Receiver"), new X509CertificateEndpointIdentity(srvCert));
-            //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/Receiver"));
 
             Dictionary<int, string> idMap = new Dictionary<int, string>();
 
@@ -207,6 +206,56 @@ namespace Client
                             Console.WriteLine("Average: {0}", result);
                         }
                     }
+                    else if (option == "7")
+                    {
+                        Console.WriteLine("Enter path:");
+                        string path = Console.ReadLine();
+
+                        if (!proxy.DatabaseExists(path))
+                        {
+                            Console.WriteLine("Database does not exists!");
+                            continue;
+                        }
+
+                        Console.WriteLine("Enter region:");
+                        string region = Console.ReadLine();
+
+                        double result = proxy.AverageConsumptionPerRegion(path, region);
+
+                        if (result == -1)
+                        {
+                            Console.WriteLine("There is no energy consumption records for {0}", region);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Average: {0}", result);
+                        }
+                    }
+                    else if (option == "8")
+                    {
+                        Console.WriteLine("Enter path:");
+                        string path = Console.ReadLine();
+
+                        if (!proxy.DatabaseExists(path))
+                        {
+                            Console.WriteLine("Database does not exists!");
+                            continue;
+                        }
+
+                        Console.WriteLine("Enter region:");
+                        string region = Console.ReadLine();
+
+                        string result = proxy.MaxConsumptionPerRegion(path, region);
+
+                        if (result == null)
+                        {
+                            Console.WriteLine("There is no energy consumption records for {0}", region);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Result: {0}", result);
+                        }
+                    }
                 }
             }
         }
@@ -220,6 +269,8 @@ namespace Client
             Console.WriteLine("4. Delete Item");
             Console.WriteLine("5. Update Item");
             Console.WriteLine("6. Average Energy Consumption of City");
+            Console.WriteLine("7. Average Energy Consumption of Region");
+            Console.WriteLine("8. Biggest Consumer of Region");
             Console.WriteLine();
 
             return Console.ReadLine();

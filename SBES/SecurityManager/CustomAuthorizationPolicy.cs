@@ -45,23 +45,9 @@ namespace SecurityManager
                 return false;
             }
 
-            evaluationContext.Properties["Principal"] = GetPrincipal(identities[0]);
+            GenericIdentity identity = identities[0] as GenericIdentity;
+            evaluationContext.Properties["Principal"] = new CustomPrincipal(identity);
             return true;
-        }
-
-        protected virtual IPrincipal GetPrincipal(IIdentity identity)
-        {
-            lock (locker)
-            {
-                IPrincipal principal = null;
-                GenericIdentity windowsIdentity = identity as GenericIdentity;
-
-                if (windowsIdentity != null)
-                {
-                    principal = new CustomPrincipal(windowsIdentity);
-                }
-                return principal;
-            }
         }
     }
 }

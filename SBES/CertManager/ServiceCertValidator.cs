@@ -18,13 +18,12 @@ namespace CertManager
         /// <param name="certificate"> certificate to be validate </param>
         public override void Validate(X509Certificate2 certificate)
         {
-            /// This will take service's certificate from storage
-
-            //promeni ovde
             X509Certificate2 srvCert = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
             //X509Certificate2 srvCert = Manager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "sbesservice");
 
-            if (!certificate.Issuer.Equals(srvCert.Issuer))
+            string issuer = "CN=ProjekatCA";
+
+            if (!certificate.Issuer.Equals(issuer))
             {
                 throw new Exception("Certificate is not from the valid issuer.");
             }

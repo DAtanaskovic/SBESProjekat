@@ -144,5 +144,31 @@ namespace Client
                 return -1;
             }
         }
+
+        public double AverageConsumptionPerRegion(string path, string city)
+        {
+            try
+            {
+                return factory.AverageConsumptionPerRegion(path, city);
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("[Update] ERROR = {0}", e.Message);
+                return -1;
+            }
+        }
+
+        public string MaxConsumptionPerRegion(string path, string city)
+        {
+            try
+            {
+                return factory.MaxConsumptionPerRegion(path, city);
+            }
+            catch (SecurityAccessDeniedException e)
+            {
+                Console.WriteLine("[Update] ERROR = {0}", e.Message);
+                return null;
+            }
+        }
     }
 }

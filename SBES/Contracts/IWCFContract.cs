@@ -27,5 +27,9 @@ namespace Contracts
         EnergyConsumptionModel ReadItem(string path, string id);
         [OperationContract]
         double AverageConsumptionPerCity(string path, string city);
+        [OperationContract]
+        double AverageConsumptionPerRegion(string path, string city);
+        [OperationContract]
+        string MaxConsumptionPerRegion(string path, string city);
     }
 }

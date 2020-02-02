@@ -7,47 +7,22 @@ namespace SecurityManager
 {
     public class Formatter
     {
-        /// <summary>
-        /// Returns username based on the Windows Logon Name. 
-        /// </summary>
-        /// <param name="winLogonName"> Windows logon name can be formatted either as a UPN (<username>@<domain_name>) or a SPN (<domain_name>\<username>) </param>
-        /// <returns> username </returns>
-        public static string ParseName(string winLogonName)
+        public static string ParseGroup(string name)
         {
-            string[] parts = new string[] { };
+			string group = "";
 
-            if (winLogonName.Contains("@"))
-            {
-                ///UPN format
-                parts = winLogonName.Split('@');
-                return parts[0];
-            }
-            else if (winLogonName.Contains("\\"))
-            {
-                /// SPN format
-                parts = winLogonName.Split('\\');
-                return parts[1];
-            }
-            else
-            {
-                return winLogonName;
-            }
-        }
+			// Dobije se OU=Admins,
+			group = name.Substring(name.IndexOf("OU=")).Split(' ')[0];
 
-        public static string ParseSubjectName(string subjectName)
-        {
-            var subjName = subjectName.Split(' ')[0].Substring(4);
-            return subjName;
-        }
+			// Dobije se Admins, 
+			group = group.Substring(group.IndexOf("=") + 1);
+			
+			// I samo izbrisemo zarez na kraju
+			group = group.Remove(group.Length - 1);
 
-        public static string ParseClientSubjectName(string fullName)
-        {
-            string subjectName = fullName.Split(',')[0];
 
-            // Mora se izbirsati CN=
-            subjectName = subjectName.Remove(0, 3);
+			return group;
 
-            return subjectName;
-        }
+		}
     }
 }
